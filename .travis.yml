@@ -8,7 +8,7 @@ node_js:
 script:
   - yarn test
   - yarn build
-  - cat dist/* | sha256sum | tee -a SHA256SUMS.txt
+  - sha256sum dist/* | tee SHA256SUMS.txt
 deploy:
   provider: releases
   api_key: $GITHUB_OAUTH_TOKEN
