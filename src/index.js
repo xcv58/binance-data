@@ -11,6 +11,10 @@ export default yarngs
   {},
   async (argv) => {
     const { symbols, interval, number, output, format } = argv
+    if (Array.isArray(interval)) {
+      console.error('Do NOT support multiple intervals!')
+      process.exit(1)
+    }
     const candles = await Promise.all(
       symbols.map(async (symbol) => {
         const data = await getCandles({ symbol, interval, number })
