@@ -51,7 +51,6 @@ You can find the binary for three platforms:
 >   --format, -f    the output format    [choices: "csv", "json"] [default: "csv"]
 >
 >   --number, -n    the number of candles for each symbol, the result will round
->
 >                   up by 500                           [number] [default: "1500"]
 >
 >   --output, -o    the output filename               [string] [default: "output"]
@@ -59,7 +58,6 @@ You can find the binary for three platforms:
 >   --interval, -i  the interval of candles
 >
 >   [choices: "1m", "3m", "5m", "15m", "30m", "1h", "2h", "4h", "6h", "8h", "12h",
->
 >                                          "1d", "3d", "1w", "1M"] [default: "5m"]
 
 ## Get 1500 15m candles for ETHBTC and LTCBTC
