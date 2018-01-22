@@ -2,14 +2,24 @@
   "name": "binance-data",
   "version": "0.0.1",
   "description": "Script to get binance data",
+  "bin": "index.js",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "build": "pkg --out-path dist .",
+    "start": "node index.js",
+    "lint": "standard",
+    "lintfix": "yarn lint --fix",
+    "test": "yarn lint"
   },
   "repository": "git@github.com:xcv58/binance-data.git",
   "author": "xcv58 <i@xcv58.com>",
   "license": "MIT",
   "dependencies": {
+    "binance-api-node": "^0.5.2",
     "yargs": "^10.1.1"
+  },
+  "devDependencies": {
+    "pkg": "^4.3.0",
+    "standard": "^10.0.3"
   }
 }
