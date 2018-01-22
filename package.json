@@ -1,0 +1,9 @@
+{
+  "name": "binance-data",
+  "version": "0.0.1",
+  "description": "Script to get binance data",
+  "main": "index.js",
+  "repository": "git@github.com:xcv58/binance-data.git",
+  "author": "xcv58 <i@xcv58.com>",
+  "license": "MIT"
+}
