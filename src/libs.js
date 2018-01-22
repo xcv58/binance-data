@@ -1,17 +1,27 @@
 import fs from 'fs'
 import json2csv from 'json2csv'
 import Binance from 'binance-api-node'
+
+let VERBOSE_LEVEL = 0
+export default (argv) => {
+  VERBOSE_LEVEL = argv.verbose
+}
+
+export const WARN = (...args) => { VERBOSE_LEVEL >= 0 && console.log(...args) }
+export const INFO = (...args) => { VERBOSE_LEVEL >= 1 && console.log(...args) }
+export const DEBUG = (...args) => { VERBOSE_LEVEL >= 2 && console.log(...args) }
+
 const client = Binance()
 
 export const getCandles = async ({ symbol, interval, number }) => {
-  console.log(`Get ${number} candles for ${symbol} with interval: ${interval}`)
+  INFO(`Get ${number} candles for ${symbol} with interval: ${interval}`)
   const candles = []
   while (candles.length < number) {
     const params = { symbol, interval }
     if (candles.length > 0) {
       params.endTime = candles[0].openTime - 1
     }
-    console.log('candles API:', params)
+    DEBUG('candles API:', params)
     const data = await client.candles(params)
     candles.unshift(...data)
   }
@@ -36,9 +46,9 @@ export const writeToFile = ({ data, format, output }) => {
   const filename = `${output}.${format}`
   fs.writeFile(filename, fileContent, (err) => {
     if (err) {
-      console.error(err)
+      WARN(err)
     } else {
-      console.log(`Successfully write to ${filename}`)
+      WARN(`Successfully write to ${filename}`)
     }
   })
 }

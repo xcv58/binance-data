@@ -2,17 +2,18 @@
 import 'babel-core/register'
 import 'babel-polyfill'
 import yarngs from 'yargs'
-import { getCandles, writeToFile } from './libs'
+import initLibs, { getCandles, writeToFile, WARN } from './libs'
 
-export default yarngs
+const { argv } = yarngs
 .command(
   '$0 [symbols..]',
   'Collect candles for symbol(s)',
   {},
   async (argv) => {
+    initLibs(argv)
     const { symbols, interval, number, output, format } = argv
     if (Array.isArray(interval)) {
-      console.error('Do NOT support multiple intervals!')
+      WARN('Do NOT support multiple intervals!')
       process.exit(1)
     }
     const candles = await Promise.all(
@@ -50,4 +51,8 @@ export default yarngs
   describe: 'the interval of candles',
   default: '5m',
   choices: [ '1m', '3m', '5m', '15m', '30m', '1h', '2h', '4h', '6h', '8h', '12h', '1d', '3d', '1w', '1M' ]
-}).argv
+})
+.count('verbose')
+.alias('v', 'verbose')
+
+initLibs(argv)
