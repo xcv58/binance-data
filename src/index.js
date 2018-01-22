@@ -2,7 +2,7 @@
 import 'babel-core/register'
 import 'babel-polyfill'
 import yarngs from 'yargs'
-import { getCandles, getFileContent, writeToFile } from './libs'
+import { getCandles, writeToFile } from './libs'
 
 export default yarngs
 .command(

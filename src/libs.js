@@ -1,4 +1,5 @@
 import fs from 'fs'
+import json2csv from 'json2csv'
 import Binance from 'binance-api-node'
 const client = Binance()
 
@@ -22,7 +23,11 @@ export const getFileContent = ({ data, format }) => {
     case 'json':
       return JSON.stringify(data, null, 2)
     case 'csv':
-      return ''
+      if (data.length === 0) {
+        throw new Error('data is empty!')
+      }
+      const fields = Object.keys(data[0])
+      return json2csv({ data, fields })
   }
 }
 
