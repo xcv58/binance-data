@@ -2,7 +2,7 @@
 import 'babel-core/register'
 import 'babel-polyfill'
 import yarngs from 'yargs'
-import { getCandles } from './libs'
+import { getCandles, getFileContent, writeToFile } from './libs'
 
 export default yarngs
 .command(
@@ -10,18 +10,15 @@ export default yarngs
   'Collect candles for symbol(s)',
   {},
   async (argv) => {
-    const { symbols, interval, number } = argv
+    const { symbols, interval, number, output, format } = argv
     const candles = await Promise.all(
       symbols.map(async (symbol) => {
         const data = await getCandles({ symbol, interval, number })
         return data
       })
     )
-    const data = candles.reduce(
-      (acc, cur) => acc.concat(cur),
-      []
-    )
-    console.log(data)
+    const data = candles.reduce((acc, cur) => acc.concat(cur), [])
+    writeToFile({ data, format, output })
   })
 .option('format', {
   alias: 'f',
@@ -37,6 +34,12 @@ export default yarngs
   describe: 'the number of candles for each symbol, the result will round up by 500',
   default: '1500',
   type: 'number'
+})
+.option('output', {
+  alias: 'o',
+  describe: 'the output filename',
+  default: 'output',
+  type: 'string'
 })
 .option('interval', {
   alias: 'i',

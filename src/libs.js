@@ -1,3 +1,4 @@
+import fs from 'fs'
 import Binance from 'binance-api-node'
 const client = Binance()
 
@@ -14,4 +15,25 @@ export const getCandles = async ({ symbol, interval, number }) => {
     candles.unshift(...data)
   }
   return candles.map(candle => ({ symbol, interval, ...candle }))
+}
+
+export const getFileContent = ({ data, format }) => {
+  switch (format) {
+    case 'json':
+      return JSON.stringify(data, null, 2)
+    case 'csv':
+      return ''
+  }
+}
+
+export const writeToFile = ({ data, format, output }) => {
+  const fileContent = getFileContent({ data, format })
+  const filename = `${output}.${format}`
+  fs.writeFile(filename, fileContent, (err) => {
+    if (err) {
+      console.error(err)
+    } else {
+      console.log(`Successfully write to ${filename}`)
+    }
+  })
 }
