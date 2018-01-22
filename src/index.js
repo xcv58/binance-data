@@ -9,11 +9,19 @@ export default yarngs
   '$0 [symbols..]',
   'Collect candles for symbol(s)',
   {},
-  (argv) => {
+  async (argv) => {
     const { symbols, interval, number } = argv
-    symbols.forEach((symbol) => {
-      getCandles({ symbol, interval, number })
-    })
+    const candles = await Promise.all(
+      symbols.map(async (symbol) => {
+        const data = await getCandles({ symbol, interval, number })
+        return data
+      })
+    )
+    const data = candles.reduce(
+      (acc, cur) => acc.concat(cur),
+      []
+    )
+    console.log(data)
   })
 .option('format', {
   alias: 'f',
